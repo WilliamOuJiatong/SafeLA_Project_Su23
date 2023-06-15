@@ -12,8 +12,8 @@
 | Member1     |    ye27@illinois.edu   |
 | Member2     |        Yuqin Jian      |
 | Member2     | yuqingj2@illinois.edu  |
-| Member3     |                        |
-| Member3     |                        |
+| Member3     |         Yuese Yu       |
+| Member3     |  yueseyu2@illinois.edu |
 
 ## Project Information
 
