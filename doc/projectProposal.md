@@ -150,13 +150,13 @@ As for data storage and removal, we need to securely store user account informat
 
 ### Front End:
 
-- User Interface (UI) Design: The creation of all visual elements of the website. This includes colors, shapes, fonts, images, animations, and the overall aesthetic of the website.
+- (William Ou) User Interface (UI) Design: The creation of all visual elements of the website. This includes colors, shapes, fonts, images, animations, and the overall aesthetic of the website.
 
-- Website Structure: This involves designing the layout and navigation of the website. You'll need to create pages for users to view available rentals, search for rentals, view favorites, and access their profile. This also includes creating the interactive map of Los Angeles.
+- (Yuese Yu) Website Structure: This involves designing the layout and navigation of the website. You'll need to create pages for users to view available rentals, search for rentals, view favorites, and access their profile. This also includes creating the interactive map of Los Angeles.
 
-- User Interaction: Designing the functionality and behavior of interactive elements. For example, creating the search function, filters for rental listings, and the ability for users to favorite and unfavorite properties.
+- (William Ou) User Interaction: Designing the functionality and behavior of interactive elements. For example, creating the search function, filters for rental listings, and the ability for users to favorite and unfavorite properties.
 
-- Responsive Design: Ensuring the website looks good and functions well on various devices, such as desktops, laptops, tablets, and smartphones.
+- (Yuese Yu) Responsive Design: Ensuring the website looks good and functions well on various devices, such as desktops, laptops, tablets, and smartphones.
 
 - (Junhong Ye) Data Visualization: Displaying crime rates and rental prices on the map and in listings in a way that is easy for users to understand.
 
@@ -169,8 +169,8 @@ As for data storage and removal, we need to securely store user account informat
 
 - (Yuqin Jian) User Authentication: Creating secure login and registration systems for users. This involves securely storing user data and ensuring only authorized users can access certain features (like the favorites folder).
 
-- Data Processing: Calculating average rental prices and crime rates for each street. This will require aggregating data from the rental and crime datasets.
+- (William Ou) Data Processing: Calculating average rental prices and crime rates for each street. This will require aggregating data from the rental and crime datasets.
 
 - (Yuqin Jian) APIs and Integration: The Back End may need to integrate APIs to display the map, and potentially other services. The team will need to handle requests and responses between the server and these third-party services.
 
-- Security: Ensuring all user data is securely stored and transmitted. This includes protecting against threats like SQL Injection and Cross-Site Scripting (XSS).
+- (Yuese Yu) Security: Ensuring all user data is securely stored and transmitted. This includes protecting against threats like SQL Injection and Cross-Site Scripting (XSS).
