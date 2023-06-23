@@ -158,14 +158,14 @@ As for data storage and removal, we need to securely store user account informat
 
 - Responsive Design: Ensuring the website looks good and functions well on various devices, such as desktops, laptops, tablets, and smartphones.
 
-- Data Visualization: Displaying crime rates and rental prices on the map and in listings in a way that is easy for users to understand.
+- (Junhong Ye) Data Visualization: Displaying crime rates and rental prices on the map and in listings in a way that is easy for users to understand.
 
 ### Back End:
 
 
-- Server-Side Logic: This involves creating the logic to process user requests such as searching for rentals, filtering rental listings, favoriting properties, and viewing favorites.
+- (Junhong Ye) Server-Side Logic: This involves creating the logic to process user requests such as searching for rentals, filtering rental listings, favoriting properties, and viewing favorites.
 
-- Database Management: The Back End will have to manage a database containing all rental listings and their associated information (price, location, etc.), crime data for each location, and user information (usernames, passwords, favorite listings).
+- (Junhong Ye) Database Management: The Back End will have to manage a database containing all rental listings and their associated information (price, location, etc.), crime data for each location, and user information (usernames, passwords, favorite listings).
 
 - (Yuqin Jian) User Authentication: Creating secure login and registration systems for users. This involves securely storing user data and ensuring only authorized users can access certain features (like the favorites folder).
 
