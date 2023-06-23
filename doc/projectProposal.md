@@ -144,7 +144,8 @@ The website offers users the opportunity to register and log in for a personaliz
 As for data storage and removal, we need to securely store user account information for log-in purposes, save the contents of their favorites folder, and establish a method for users to easily remove selected properties from their favorites folder.
 
 ## Q10
-
+![avatar](doc\2.png)
+![avatar](doc\3.png)
 
 ## Q11 Work distribution:
 
