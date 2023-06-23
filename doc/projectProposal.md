@@ -144,8 +144,8 @@ The website offers users the opportunity to register and log in for a personaliz
 As for data storage and removal, we need to securely store user account information for log-in purposes, save the contents of their favorites folder, and establish a method for users to easily remove selected properties from their favorites folder.
 
 ## Q10
-![avatar](doc\2.png)
-![avatar](doc\3.png)
+![avatar](2.png)
+![avatar](3.png)
 
 ## Q11 Work distribution:
 
@@ -155,11 +155,10 @@ As for data storage and removal, we need to securely store user account informat
 
 - (Yuese Yu) Website Structure: This involves designing the layout and navigation of the website. You'll need to create pages for users to view available rentals, search for rentals, view favorites, and access their profile. This also includes creating the interactive map of Los Angeles.
 
-<<<<<<< HEAD
+
 - (William Ou) User Interaction: Designing the functionality and behavior of interactive elements. For example, creating the search function, filters for rental listings, and the ability for users to favorite and unfavorite properties.
 =======
 - (Jiatong Ou) User Interaction: Designing the functionality and behavior of interactive elements. For example, creating the search function, filters for rental listings, and the ability for users to favorite and unfavorite properties.
->>>>>>> eae5b50914a272383a6247366d8a432563eb13b1
 
 - (Yuese Yu) Responsive Design: Ensuring the website looks good and functions well on various devices, such as desktops, laptops, tablets, and smartphones.
 
@@ -174,11 +173,9 @@ As for data storage and removal, we need to securely store user account informat
 
 - (Yuqin Jian) User Authentication: Creating secure login and registration systems for users. This involves securely storing user data and ensuring only authorized users can access certain features (like the favorites folder).
 
-<<<<<<< HEAD
 - (William Ou) Data Processing: Calculating average rental prices and crime rates for each street. This will require aggregating data from the rental and crime datasets.
 =======
 - (Jiatong Ou) Data Processing: Calculating average rental prices and crime rates for each street. This will require aggregating data from the rental and crime datasets.
->>>>>>> eae5b50914a272383a6247366d8a432563eb13b1
 
 - (Yuqin Jian) APIs and Integration: The Back End may need to integrate APIs to display the map, and potentially other services. The team will need to handle requests and responses between the server and these third-party services.
 
