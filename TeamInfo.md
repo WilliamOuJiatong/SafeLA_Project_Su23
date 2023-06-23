@@ -25,4 +25,4 @@
 
 ## Project Summary
 
-This is a summary of the project!
+Our project aims to develop a rental website that utilizes two datasets: Crime in Los Angeles Data from 2020 to Present and rent price data in Los Angeles. This website will provide users with recommendations for housing locations based on their desired rental price range, and crime rate indicators to assist users in evaluating the safety of the recommended areas.
