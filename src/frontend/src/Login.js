@@ -52,7 +52,6 @@ function Login() {
                     <button type='submit' className='btn btn-success w-100 rounded-0'> Log in</button>
                     <p>You agree to our terms and policies</p>
                     <Link to="/signup" className='btn btn-default border w-100 bg-light rounded-0 text-decoration-none'>Create Account</Link>
-                    {/* <button className='btn btn-default border w-100 bg-light rounded-0'>Create Account</button> */}
                 </form>
 
             </div>
