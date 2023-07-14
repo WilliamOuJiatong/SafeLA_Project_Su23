@@ -1,22 +1,34 @@
-SET @myLAT = 33.73;
-SET @myLON = -118.30;
+SQL Query1:
+USE proj_rent_crime;
 
-SELECT @myLAT, @myLON;
+DROP TABLE IF EXISTS LocationCrimeNum;
+DROP TABLE IF EXISTS CrimeNumDescription;
 
-SELECT LAT - @myLAT, LON - @myLON
-FROM Rent;
-
-SELECT * FROM Rent_raw;
-
-CREATE TABLE nearLocations(
+CREATE TABLE LocationCrimeNum (
 	LAT REAL,
-    LON REAL
+    LON REAL,
+    Descriptions VARCHAR(255)
 );
 
-SELECT lf.UserID, AVG(l.RateNum) as avgCrimeRate
-FROM LocationFavourite lf JOIN Location l ON lf.LAT = l.LAT AND lf.LON = l.LON
-WHERE (l.LAT, l.LON) IN (SELECT LAT, LON
-	FROM Crime_raw c
-    WHERE c.Vict_Sex = 'M')
-GROUP BY lf.UserID
-ORDER BY avgCrimeRate;
+CREATE TABLE CrimeNumDescription(
+	CrimeNumLow INT PRIMARY KEY,
+    CrimeNumHigh INT,
+    Descriptions VARCHAR(255)
+);
+
+INSERT INTO CrimeNumDescription
+VALUES (0, 4, 'No Crime, Safe'),
+(5, 9, 'Few Crime, Usually Safe'),
+(10, 19, 'Some Crime, Should Be Safe'),
+(20, 49, 'Middle Crime, Often Safe'),
+(50, 99, 'More Criem, Not So Safe'),
+(100, 499, 'Many Crime, Not Safe'),
+(500, 10000, 'Much Crime, Very Unsafe');
+
+INSERT INTO LocationCrimeNum
+SELECT DISTINCT a.LAT, a.LON, cnd.Descriptions
+	FROM (SELECT cr.LAT, cr.LON, COUNT(*) as Num
+		FROM Crime_raw cr
+        GROUP BY cr.LAT, cr.LON) a JOIN CrimeNumDescription cnd ON a.Num BETWEEN cnd.CrimeNumLow AND cnd.CrimeNumHigh;
+
+SELECT * FROM LocationCrimeNum;
