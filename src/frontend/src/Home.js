@@ -89,7 +89,8 @@ const Home = () => {
         {position && <p>Latitude: {position.lat}, Longitude: {position.lng}</p>
         } {
           description &&
-          <p>Description: {description}</p>}
+          <p>Description: Latitude: {description.LAT},<br></br>
+            Longitude: {description.LON},<br></br>Descriptions: {description.Descriptions}</p>}
       </div></div>
   );
 }

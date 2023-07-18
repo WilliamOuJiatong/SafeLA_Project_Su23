@@ -14,6 +14,20 @@ const db = mysql.createConnection({
     password: 'lazy',
     database: 'proj_rent_crime'
 })
+function haversineDistance(lat1, lon1, lat2, lon2) {
+    function toRad(x) {
+        return x * Math.PI / 180;
+    }
+    var R = 6371;
+    var x1 = lat2 - lat1;
+    var dLat = toRad(x1);
+    var x2 = lon2 - lon1;
+    var dLon = toRad(x2);
+    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) + Math.cos(toRad(lat1)) * Math.cos(toRad(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
+    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+    var d = R * c;
+    return d;
+}
 app.post('/signup', (req, res) => {
     const countSql = 'SELECT COUNT(*) as count FROM User';
     db.query(countSql, (err, data) => {
@@ -50,12 +64,21 @@ app.post('/login', (req, res) => {
 app.get('/crimeData', (req, res) => {
     const lat = req.query.lat;
     const lon = req.query.lon;
-    const sql = `SELECT DISTINCT a.LAT, a.LON, cnd.Descriptions FROM (SELECT cr.LAT, cr.LON, COUNT(*) as Num FROM Crime_raw cr WHERE cr.LAT = ? AND cr.LON = ? GROUP BY cr.LAT, cr.LON) a JOIN CrimeNumDescription cnd ON a.Num BETWEEN cnd.CrimeNumLow AND cnd.CrimeNumHigh`;
-    db.query(sql, [lat, lon], (err, data) => {
+    const sql = 'SELECT * FROM LocationCrimeNum';
+    db.query(sql, [lat, lon, lat], (err, data) => {
         if (err) {
             return res.json('Error');
         }
-        return res.json(data);
+        let closestLocation = data[0];
+        let minDistance = haversineDistance(lat, lon, data[0].LAT, data[0].LON);
+        for (let i = 1; i < data.length; i++) {
+            let distance = haversineDistance(lat, lon, data[i].LAT, data[i].LON);
+            if (distance < minDistance) {
+                minDistance = distance;
+                closestLocation = data[i];
+            }
+        }
+        return res.json(closestLocation);
     })
 })
 
