@@ -1,10 +1,33 @@
 import React, { useState } from 'react';
-import { MapContainer, TileLayer, useMapEvents } from 'react-leaflet';
+import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
+import { Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import axios from 'axios';
+import flagIcon from './flag.png'; // adjust path to your flag.png
+
+const flagIconInstance = new Icon({
+  iconUrl: flagIcon,
+  iconSize: [25, 41], // size of the icon, adjust these values
+  iconAnchor: [12, 41] // point of the icon which will correspond to marker's location, adjust if necessary
+});
 
 const Home = () => {
   const [position, setPosition] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const handleChange = (event) => {
+    setSearchTerm(event.target.value);
+  }
+
+  const searchLocation = async () => {
+    try {
+      const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${searchTerm}&key=c6501429a35a4241a4b9994b3957c8f4`);
+      const { lat, lng } = response.data.results[0].geometry;
+      setPosition({lat, lng});
+    } catch (error) {
+      console.error(error);
+    }
+  }
 
   const MapEvents = () => {
     const map = useMapEvents({
@@ -12,11 +35,15 @@ const Home = () => {
         setPosition(e.latlng);
       },
     });
+  
+    // Center map to position after each render if position is defined
+    React.useEffect(() => {
+      if (position) {
+        map.flyTo(position);
+      }
+    }, [map]); // Removed 'position' from dependency array
+  
     return null;
-  }
-
-  const handleChange = (event) => {
-    setSearchTerm(event.target.value);
   }
 
   return (
@@ -27,6 +54,7 @@ const Home = () => {
           placeholder="Search here..."
           value={searchTerm}
           onChange={handleChange}
+          onKeyDown={event => event.key === 'Enter' && searchLocation()}
           style={{ width: '100%', padding: '10px' }}
         />
       </div>
@@ -35,6 +63,7 @@ const Home = () => {
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
+        {position && <Marker position={position} icon={flagIconInstance} />}
         <MapEvents />
       </MapContainer>
       {position && <p>Latitude: {position.lat}, Longitude: {position.lng}</p>}
