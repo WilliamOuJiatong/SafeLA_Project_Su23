@@ -1,4 +1,4 @@
-const express = require("express");
+const express = require('express');
 const mysql = require('mysql');
 const cors = require('cors');
 
@@ -8,46 +8,68 @@ const cors = require('cors');
 const app = express();
 app.use(cors());
 app.use(express.json());
-const db = mysql.createConnection({    
-    host: "34.123.55.32",    
-    user: "root",    
-    password: "lazy",    
-    database: "proj_rent_crime"}
-)
-app.post('/signup', (req, res) => {   
-    const countSql = "SELECT COUNT(*) as count FROM User";
+const db = mysql.createConnection({
+    host: '34.123.55.32',
+    user: 'root',
+    password: 'lazy',
+    database: 'proj_rent_crime'
+})
+app.post('/signup', (req, res) => {
+    const countSql = 'SELECT COUNT(*) as count FROM User';
     db.query(countSql, (err, data) => {
-        if(err) {            
-            return res.json("Error");        
-        }  
-        const userID = data[0].count + 1; // get count from result and add 1
-        const insertSql = "INSERT INTO User (UserID, UnderName, Password, Email) VALUES (?)";    
-        const values = [userID, req.body.name, req.body.password, req.body.email]   
-        db.query(insertSql, [values], (err, result) => {        
-            if(err) {            
-                return res.json("Error");        
-            }        
-            return res.json(result);    
+        if (err) {
+            return res.json('Error');
+        }
+        const userID = data[0].count + 1;  // get count from result and add 1
+        const insertSql =
+            'INSERT INTO User (UserID, UnderName, Password, Email) VALUES (?)';
+        const values = [userID, req.body.name, req.body.password, req.body.email]
+        db.query(insertSql, [values], (err, result) => {
+            if (err) {
+                return res.json('Error');
+            }
+            return res.json(result);
         })
-    })   
+    })
 })
 
 app.post('/login', (req, res) => {
-    const sql = "SELECT * FROM User WHERE Email = ? AND Password = ?";
-    db.query(sql, [req.body.email,req.body.password ], (err, data) => {
-        if(err) {
-            return res.json("Error");
+    const sql = 'SELECT * FROM User WHERE Email = ? AND Password = ?';
+    db.query(sql, [req.body.email, req.body.password], (err, data) => {
+        if (err) {
+            return res.json('Error');
         }
-        if(data.length > 0) {
-            return res.json("Success");
+        if (data.length > 0) {
+            return res.json('Success');
         } else {
-            return res.json("Fail");
+            return res.json('Fail');
         }
     })
 })
 
-// app.post('/login',[    check('email', "Emaill length error").isEmail().isLength({min: 10, max:30}),    check('password', "password length 8-10").isLength({min: 8, max: 10})], (req, res) => {    const sql = "SELECT * FROM login WHERE email = ? AND password = ?";    db.query(sql, [req.body.email,req.body.password ], (err, data) => {
-//         const errors = validationResult(req);        if(!errors.isEmpty()) {            return res.json(errors);        } else {            if(err) {                return res.json("Error");            }            if(data.length > 0) {                return res.json("Success");            } else {                return res.json("Faile");            }        }            })})
-app.listen(8081, ()=> {   
-    console.log("listening");
+app.get('/crimeData', (req, res) => {
+    const lat = req.query.lat;
+    const lon = req.query.lon;
+    const sql = `SELECT DISTINCT a.LAT, a.LON, cnd.Descriptions FROM (SELECT cr.LAT, cr.LON, COUNT(*) as Num FROM Crime_raw cr WHERE cr.LAT = ? AND cr.LON = ? GROUP BY cr.LAT, cr.LON) a JOIN CrimeNumDescription cnd ON a.Num BETWEEN cnd.CrimeNumLow AND cnd.CrimeNumHigh`;
+    db.query(sql, [lat, lon], (err, data) => {
+        if (err) {
+            return res.json('Error');
+        }
+        return res.json(data);
+    })
+})
+
+
+// app.post('/login',[    check('email', "Emaill length
+// error").isEmail().isLength({min: 10, max:30}),    check('password', "password
+// length 8-10").isLength({min: 8, max: 10})], (req, res) => {    const sql =
+// "SELECT * FROM login WHERE email = ? AND password = ?";    db.query(sql,
+// [req.body.email,req.body.password ], (err, data) => {
+//         const errors = validationResult(req);        if(!errors.isEmpty()) {
+//         return res.json(errors);        } else {            if(err) { return
+//         res.json("Error");            }            if(data.length > 0) {
+//         return res.json("Success");            } else {                return
+//         res.json("Faile");            }        }            })})
+app.listen(8081, () => {
+    console.log('listening');
 })
