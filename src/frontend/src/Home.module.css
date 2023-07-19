@@ -64,3 +64,9 @@
     box-sizing: border-box;
     background: white;
 }
+
+.logoutButton {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }

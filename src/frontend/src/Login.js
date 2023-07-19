@@ -24,7 +24,7 @@ function Login() {
         if (errors.email === "" && errors.password === "") {
             axios.post('http://localhost:8081/login', values)
                 .then(res => {
-                    console.log(res)
+                    console.log(res.data)
                     if (res.data.status === "Success") {
                         setUser(res.data.user);
                         navigate('/home');

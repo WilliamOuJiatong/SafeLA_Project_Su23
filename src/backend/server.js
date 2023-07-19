@@ -80,6 +80,20 @@ app.put('/useredit', (req, res) => {
     });
 });
 
+app.delete('/userdelete/:UserID', (req, res) => {
+    const userId = req.params.UserID;
+
+    const deleteUserQuery = 'DELETE FROM User WHERE UserID = ?';
+    db.query(deleteUserQuery, [userId], (err, result) => {
+        if (err) {
+            console.error(`Failed to delete user with id ${userId}: ${err.message}`);
+            return res.status(500).json({ error: "Server error. Failed to delete user." });
+        } else {
+            return res.status(200).json({ message: "User deleted successfully" });
+        }
+    });
+});
+
 app.get('/crimeData', (req, res) => {
     const lat = req.query.lat;
     const lon = req.query.lon;

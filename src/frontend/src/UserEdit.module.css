@@ -45,3 +45,17 @@
 .formButton:hover {
     background-color: #0056b3;
 }
+
+.deleteButton {
+    width: 100%;
+    padding: 10px 15px;
+    background-color: #ff2828;
+    border: none;
+    border-radius: 4px;
+    color: white;
+    font-size: 14px;
+}
+
+.deleteButton:hover {
+    background-color: #0056b3;
+}

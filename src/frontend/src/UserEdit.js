@@ -9,6 +9,7 @@ function UserEdit() {
     const navigate = useNavigate()
     const { user, setUser } = useContext(UserContext)
     const [updatedUser, setUpdatedUser] = useState({
+        UserID: user.UserID,
         UserName: user.UserName,
         Email: user.Email,
         Password: user.Password,
@@ -32,6 +33,17 @@ function UserEdit() {
             console.log(error)
         }
     }
+
+    const deleteUser = async (e) => {
+        e.preventDefault();
+        try {
+            await axios.delete(`http://localhost:8081/userdelete/${user.UserID}`);
+            navigate('/');
+        } catch (error) {
+            console.error(`Error: ${error}`);
+        }
+    };
+
 
     return (
         <div className={styles.container}> {/*using a class from CSS Module*/}
@@ -61,6 +73,8 @@ function UserEdit() {
                     onChange={handleChange}
                 />
                 <button className={styles.formButton} type="submit">Submit update</button>
+                <br></br><br></br>
+                <button onClick={(e) => deleteUser(e)} className={styles.deleteButton}>Delete Account</button>
                 <br></br><br></br>
                 <button onClick={() => navigate('/home')} className={styles.formButton}>Back</button>
             </form>

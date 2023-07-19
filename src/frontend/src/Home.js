@@ -22,8 +22,14 @@ const Home = () => {
 
   const [searchTerm, setSearchTerm] = useState('');
 
-  const { user } = useContext(UserContext);
-  console.log(user);
+  const { user, setUser } = useContext(UserContext);
+
+  const navigate = useNavigate();
+
+  const logout = () => {
+    setUser(null);  // reset user state
+    navigate('/');  // redirect to login page
+  };
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -107,6 +113,7 @@ const Home = () => {
           <p>Latitude: {description.LAT},<br />
             Longitude: {description.LON},<br />Descriptions: {description.Descriptions}</p>}
       </div>
+      <button onClick={logout} className={styles.logoutButton}>Log Out</button>
     </div>
   );
 }

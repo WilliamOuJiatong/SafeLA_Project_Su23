@@ -19,7 +19,7 @@ function App() {
           <Route path='/useredit' element={<UserEdit />}></Route>
         </Routes>
       </UserContext.Provider>
-    </BrowserRouter>
+    </BrowserRouter >
   )
 }
 
