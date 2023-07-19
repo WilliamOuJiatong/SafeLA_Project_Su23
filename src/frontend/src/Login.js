@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import Validation from './LoginValidation';
 import axios from 'axios';
+import { UserContext } from './UserContext';
 
 function Login() {
     const [values, setValues] = useState({
         email: '',
         password: ''
     })
+    const { setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [errors, setErrors] = useState({})
     const handleInput = (event) => {
@@ -22,7 +24,8 @@ function Login() {
         if (errors.email === "" && errors.password === "") {
             axios.post('http://localhost:8081/login', values)
                 .then(res => {
-                    if (res.data === "Success") {
+                    if (res.data.status === "Success") {
+                        setUser(res.data.user);
                         navigate('/home');
                     }
                     else {

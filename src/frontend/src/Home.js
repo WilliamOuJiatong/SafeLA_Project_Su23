@@ -1,9 +1,12 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
+import { Link, useNavigate } from 'react-router-dom'
 import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import { Icon } from 'leaflet';
 import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
 import flagIcon from './flag.png'; // adjust path to your flag.png
+import { UserContext } from './UserContext';
+import styles from './Home.module.css';
 
 const flagIconInstance = new Icon({
   iconUrl: flagIcon,
@@ -18,6 +21,15 @@ const Home = () => {
     useState('');  // state to store the description
 
   const [searchTerm, setSearchTerm] = useState('');
+
+  const { user, setUser } = useContext(UserContext);
+
+  const navigate = useNavigate();
+
+  const logout = () => {
+    setUser(null);  // reset user state
+    navigate('/');  // redirect to login page
+  };
 
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
@@ -65,33 +77,44 @@ const Home = () => {
   }, [position]);
 
   return (
-    <div>
-      <div style={{ padding: '10px' }}>
+    <div className={styles.container}>
+      <div className={styles.header}>
+        <div className={styles.welcomeSection}>
+          {user && (
+            <div>
+              <h2>Welcome, {user.UserName}!</h2>
+              <p>Your email is: {user.Email}</p>
+            </div>
+          )}
+          <Link to="/useredit">
+            <button className={styles.editButton}>Edit</button>
+          </Link>
+        </div>
         <input
+          className={styles.searchBar}
           type="text"
           placeholder="Search here..."
           value={searchTerm}
           onChange={handleChange}
           onKeyDown={event => event.key === 'Enter' && searchLocation()}
-          style={{ width: '100%', padding: '10px' }}
         />
       </div>
-      <MapContainer center={[34.0522, -118.2437]} zoom={13} style={{ height: "70vh", width: "100%" }}>
+      <MapContainer center={[34.0522, -118.2437]} zoom={13} className={styles.mapContainer}>
         <TileLayer
           url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
         />
         {position && <Marker position={position} icon={flagIconInstance} />}
-
         <MapEvents />
       </MapContainer>
-      <div style={{ width: "50%", float: "right" }}>
-        {position && <p>Latitude: {position.lat}, Longitude: {position.lng}</p>
-        } {
-          description &&
-          <p>Description: Latitude: {description.LAT},<br></br>
-            Longitude: {description.LON},<br></br>Descriptions: {description.Descriptions}</p>}
-      </div></div>
+      <div className={styles.footer}>
+        {position && <p>Latitude: {position.lat}, Longitude: {position.lng}</p>}
+        {description &&
+          <p>Latitude: {description.LAT},<br />
+            Longitude: {description.LON},<br />Descriptions: {description.Descriptions}</p>}
+      </div>
+      <button onClick={logout} className={styles.logoutButton}>Log Out</button>
+    </div>
   );
 }
 
