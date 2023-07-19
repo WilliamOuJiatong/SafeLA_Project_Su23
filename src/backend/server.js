@@ -51,15 +51,34 @@ app.post('/login', (req, res) => {
     const sql = 'SELECT * FROM User WHERE Email = ? AND Password = ?';
     db.query(sql, [req.body.email, req.body.password], (err, data) => {
         if (err) {
-            return res.json('Error');
+            return res.json({ status: 'Error' });
         }
         if (data.length > 0) {
-            return res.json('Success');
+            return res.json({
+                status: 'Success',
+                user: {
+                    UserID: data[0].UserID,
+                    UserName: data[0].UnderName,
+                    Password: data[0].Password,
+                    Email: data[0].Email
+                }
+            });
         } else {
-            return res.json('Fail');
+            return res.json({ status: 'Fail' });
         }
     })
 })
+
+app.put('/useredit', (req, res) => {
+    const sql = "UPDATE User SET UnderName = ?, Email = ?, Password = ? WHERE UserID = ?"
+    db.query(sql, [req.body.UserName, req.body.Email, req.body.Password, req.body.UserID], (err, result) => {
+        if (err) {
+            console.log(err);
+            return res.json({ status: "Error" });
+        }
+        return res.json({ status: "Success" })
+    });
+});
 
 app.get('/crimeData', (req, res) => {
     const lat = req.query.lat;

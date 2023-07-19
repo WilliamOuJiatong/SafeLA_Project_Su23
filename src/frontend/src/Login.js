@@ -1,52 +1,56 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import { useState } from 'react'
 import Validation from './LoginValidation';
 import axios from 'axios';
+import { UserContext } from './UserContext';
 
 function Login() {
     const [values, setValues] = useState({
         email: '',
         password: ''
     })
+    const { setUser } = useContext(UserContext);
     const navigate = useNavigate();
     const [errors, setErrors] = useState({})
     const handleInput = (event) => {
         console.log('$$$', event.target.name)
-        console.log('$$$',event.target.value)
-        setValues(prev => ({...prev, [event.target.name]: [event.target.value]}))
+        console.log('$$$', event.target.value)
+        setValues(prev => ({ ...prev, [event.target.name]: [event.target.value] }))
     }
     const handleSubmit = (event) => {
         event.preventDefault();
-        setErrors( Validation(values));
-        if(errors.email === "" && errors.password === "") {
+        setErrors(Validation(values));
+        if (errors.email === "" && errors.password === "") {
             axios.post('http://localhost:8081/login', values)
-            .then(res => {
-                if (res.data === "Success") {
-                    navigate('/home');
-                }
-                else {
-                    alert("No record existed");
-                }
-            })
-            .catch(err => console.log(err));
+                .then(res => {
+                    console.log(res)
+                    if (res.data.status === "Success") {
+                        setUser(res.data.user);
+                        navigate('/home');
+                    }
+                    else {
+                        alert("No record existed");
+                    }
+                })
+                .catch(err => console.log(err));
         }
     }
     return (
-        <div className='d-flex justify-content-center align-items-center bg-primary vh-100'>  
-            <div className='bg-white p-3 rounded w-25'>  
-                <h2>Sign-In</h2> 
+        <div className='d-flex justify-content-center align-items-center bg-primary vh-100'>
+            <div className='bg-white p-3 rounded w-25'>
+                <h2>Sign-In</h2>
                 <form action="" onSubmit={handleSubmit}>
                     <div className='mb-3'>
                         <label htmlFor="email"><strong>Email</strong></label>
-                        <input type="email" placeholder='Enter Email' name='email' 
-                        onChange={handleInput} className='form-control rounded-0'/>
+                        <input type="email" placeholder='Enter Email' name='email'
+                            onChange={handleInput} className='form-control rounded-0' />
                         <span className='text-danger'> {errors.email}</span>
                     </div>
                     <div className='mb-3'>
                         <label htmlFor="password"><strong>Password</strong></label>
-                        <input type="password" placeholder='Enter Password' name='password' 
-                        onChange={handleInput} className='form-control rounded-0'/>
+                        <input type="password" placeholder='Enter Password' name='password'
+                            onChange={handleInput} className='form-control rounded-0' />
                         <span className='text-danger'> {errors.password}</span>
                     </div>
                     <button type='submit' className='btn btn-success w-100 rounded-0'> Log in</button>
