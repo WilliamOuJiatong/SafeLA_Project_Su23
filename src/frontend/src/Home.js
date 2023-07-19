@@ -37,7 +37,7 @@ const Home = () => {
 
   const searchLocation = async () => {
     try {
-      const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${searchTerm}&key=c6501429a35a4241a4b9994b3957c8f4`);
+      const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${searchTerm + "Los Angeles, California"}&key=c6501429a35a4241a4b9994b3957c8f4`);
       const { lat, lng } = response.data.results[0].geometry;
       setPosition({ lat, lng });
     } catch (error) {
