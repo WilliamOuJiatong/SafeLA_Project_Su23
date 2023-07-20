@@ -115,6 +115,18 @@ app.get('/crimeData', (req, res) => {
     })
 })
 
+app.get('/rentInfo', (req, res) => {
+    const lat = req.query.lat;
+    const lon = req.query.lon;
+    const sql = 'SELECT r.Row_ID, r.Amount, r.Tract, r.Year, SQRT(POW(r.LAT - ?, 2) + POW(r.LON - ?, 2)) AS Distance, a.AverageAmount FROM Rent_raw r JOIN (SELECT Tract, AVG(Amount) AS AverageAmount FROM Rent_raw GROUP BY Tract ) a ON r.Tract = a.Tract ORDER BY Distance ASC, r.Amount ASC LIMIT 5;';
+    db.query(sql, [lat, lon],(err, data) => {
+        if (err) {
+            return res.json('Error');
+        }
+        console.log(data);
+        return res.json(data);
+    })
+})
 
 // app.post('/login',[    check('email', "Emaill length
 // error").isEmail().isLength({min: 10, max:30}),    check('password', "password
