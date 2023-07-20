@@ -70,3 +70,15 @@
     top: 20px;
     right: 20px;
   }
+
+.rentInfoContainer {
+    position: absolute;
+    bottom: 20px; /* Adjust the distance to bottom*/
+    right: 30px; /* Adjust the distance to right*/
+    width: 50%; /* Adjust the width*/
+    background-color: rgba(255, 255, 255, 0.8); 
+    padding: 20px;
+    overflow-y: auto; /* Add a scrollbar if the content overflows */
+    max-height: 15%; /* Adjust the height */
+    font-size: 1.0em; 
+}
