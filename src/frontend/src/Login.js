@@ -28,8 +28,11 @@ function Login() {
                         setUser(res.data.user);
                         navigate('/home');
                     }
-                    else {
-                        alert("No record existed");
+                    else if (res.data.status === "Fail") {
+                        alert("No record existed"); 
+                    }
+                    else if (res.data.status === "Error") {
+                        alert("An error occurred while processing your request"); 
                     }
                 })
                 .catch(err => console.log(err));

@@ -26,6 +26,8 @@ const Home = () => {
 
   const navigate = useNavigate();
 
+  const [rentInfo, setRentInfo] = useState([]);
+
   const logout = () => {
     setUser(null);  // reset user state
     navigate('/');  // redirect to login page
@@ -37,13 +39,20 @@ const Home = () => {
 
   const searchLocation = async () => {
     try {
-      const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${searchTerm + "Los Angeles, California"}&key=c6501429a35a4241a4b9994b3957c8f4`);
-      const { lat, lng } = response.data.results[0].geometry;
-      setPosition({ lat, lng });
+      const response = await axios.get(`https://api.opencagedata.com/geocode/v1/json?q=${searchTerm + ", Los Angeles, California"}&key=c6501429a35a4241a4b9994b3957c8f4`);
+      
+      if(response.data.results.length > 0) {
+        const { lat, lng } = response.data.results[0].geometry;
+        setPosition({ lat, lng });
+      } else {
+        console.log("Input street does not exist in Los Angeles, California");
+        alert("Input street does not exist in Los Angeles, California"); 
+      }
     } catch (error) {
       console.error(error);
+      alert("OOps, theres an error");
     }
-  }
+}
 
   const MapEvents = () => {
     const map = useMapEvents({
@@ -76,7 +85,22 @@ const Home = () => {
     }
   }, [position]);
 
+  useEffect(() => {
+    if (position) {
+      axios
+        .get(`http://localhost:8081/rentInfo?lat=${position.lat}&lon=${position.lng}`)
+        .then(response => {
+          console.log(response.data); // log the data here
+          setRentInfo(response.data);
+        })
+        .catch(error => {
+          console.error(`Error: ${error}`);
+        });
+    }
+  }, [position]);
+
   return (
+    <>
     <div className={styles.container}>
       <div className={styles.header}>
         <div className={styles.welcomeSection}>
@@ -113,8 +137,21 @@ const Home = () => {
           <p>Latitude: {description.LAT},<br />
             Longitude: {description.LON},<br />Descriptions: {description.Descriptions}</p>}
       </div>
-      <button onClick={logout} className={styles.logoutButton}>Log Out</button>
+      <div className={`${styles.rentInfoContainer}`}>
+      <h2>Rent Info:</h2>
+      {Array.isArray(rentInfo) && rentInfo.map((info, index) => (
+          <div key={index}>
+          <p>Tract: {info.Tract}</p>
+          <p>Price: {info.Amount}</p>
+          <p>CorrYear: {info.Year}</p>
+          <p>Distance: {info.Distance}</p>
+          <p>AvgPrice: {info.AverageAmount}</p>
+          </div>
+      ))}
     </div>
+    </div>
+      <button onClick={logout} className={styles.logoutButton}>Log Out</button>
+    </>
   );
 }
 
