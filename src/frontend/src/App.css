@@ -1,8 +1,20 @@
+
+/*add new font*/
+
+
+@font-face {
+  font-family: 'Amiri', serif;
+  font-weight: 400;
+  src: url('https://fonts.googleapis.com/css2?family=Amiri&display=swap') format('truetype');
+}
+
 .App {
+
   text-align: center;
 }
 
 .App-logo {
+
   height: 40vmin;
   pointer-events: none;
 }
@@ -14,6 +26,7 @@
 }
 
 .App-header {
+  
   background-color: #282c34;
   min-height: 100vh;
   display: flex;
@@ -22,10 +35,13 @@
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
+
 }
 
 .App-link {
+  
   color: #61dafb;
+
 }
 
 @keyframes App-logo-spin {
@@ -35,4 +51,23 @@
   to {
     transform: rotate(360deg);
   }
+}
+
+
+.fade-enter {
+  opacity: 0;
+}
+
+.fade-enter-active {
+  opacity: 1;
+  transition: opacity 500ms ease-in-out;
+}
+
+.fade-exit {
+  opacity: 1;
+}
+
+.fade-exit-active {
+  opacity: 0;
+  transition: opacity 500ms ease-in-out;
 }

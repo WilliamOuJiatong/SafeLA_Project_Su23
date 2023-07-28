@@ -4,6 +4,13 @@ import { useState } from 'react'
 import Validation from './LoginValidation';
 import axios from 'axios';
 import { UserContext } from './UserContext';
+import bgVideo from './video1.mp4';
+import './begin.css';
+import './index.css';
+  
+
+//Altering the appearance of login box-text font and box // line 73-96 line 115-155
+//Add video background // line 53-70 line 106-112
 
 function Login() {
     const [values, setValues] = useState({
@@ -38,29 +45,106 @@ function Login() {
                 .catch(err => console.log(err));
         }
     }
+
+    const videoContainerStyle = {
+        fontFamily: 'Amiri',
+        position: 'relative',
+        width: '100%',
+        height: '100vh',
+        overflow: 'hidden',
+      };
+    
+      const videoBackgroundStyle = {
+        fontFamily: 'Amiri',
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        objectFit: 'cover',
+        zIndex: -1,
+      };
+      const contentStyle = {
+        fontFamily: 'Amiri',
+        position: 'relative', 
+        backgroundColor: 'rgba(255, 255, 255, 0.4)',
+        padding: '10px',
+        borderRadius: '10px',
+        maxWidth: '400px',
+        width: '100%',
+        height: '50%',
+        top: '50%', 
+        left: '50%', 
+        transform: 'translate(-50%, -50%)', 
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        color: 'white',
+        fontSize: '2rem',
+        animation: 'fadeIn 2s'
+      };
+
+      const h1Style = {
+        color: 'white', 
+        fontWeight: 'bold',
+        fontFamily: 'Big Shoulders Inline Text'
+      };
     return (
-        <div className='d-flex justify-content-center align-items-center bg-primary vh-100'>
-            <div className='bg-white p-3 rounded w-25'>
-                <h2>Sign-In</h2>
+        <div style={videoContainerStyle}>
+      {/* Video */}
+      <video autoPlay loop muted style={{ ...videoBackgroundStyle, animation: 'fadeIn 3s' }}
+        className="videoFadeIn">
+        <source src={bgVideo} type="video/mp4" />
+        Your browser does not support the video tag.
+        </video>
+
+
+        <div style={contentStyle}>
+        <h1 style={h1Style}>Sign-In</h1>
                 <form action="" onSubmit={handleSubmit}>
                     <div className='mb-3'>
-                        <label htmlFor="email"><strong>Email</strong></label>
+                    <label htmlFor="email" style={{ fontFamily: 'Big Shoulders Inline Text' }}><strong>Email</strong></label>
                         <input type="email" placeholder='Enter Email' name='email'
                             onChange={handleInput} className='form-control rounded-0' />
                         <span className='text-danger'> {errors.email}</span>
                     </div>
                     <div className='mb-3'>
-                        <label htmlFor="password"><strong>Password</strong></label>
+                    <label htmlFor="password" style={{ fontFamily: 'Big Shoulders Inline Text' }}><strong>Password</strong></label>
                         <input type="password" placeholder='Enter Password' name='password'
                             onChange={handleInput} className='form-control rounded-0' />
                         <span className='text-danger'> {errors.password}</span>
                     </div>
-                    <button type='submit' className='btn btn-success w-100 rounded-0'> Log in</button>
-                    <p>You agree to our terms and policies</p>
-                    <Link to="/signup" className='btn btn-default border w-100 bg-light rounded-0 text-decoration-none'>Create Account</Link>
+                    <button type="submit"
+    className="btn w-100 rounded-0"
+    style={{
+    backgroundColor: '#007bff',
+    color: 'white',
+    cursor: 'pointer',
+    transition: 'background-color 0.3s ease',
+  }}
+  
+  onMouseEnter={(e) => e.target.style.backgroundColor = 'black'}
+ 
+  onMouseLeave={(e) => e.target.style.backgroundColor = '#007bff'}>
+                    Log in
+                    </button>
+                    <p><h4 style={{ fontFamily: 'Big Shoulders Inline Text' }}>You agree to our terms and policies</h4></p>
+                    <Link to="/signup" className="btn w-100 rounded-0" style={{
+    backgroundColor: 'white',
+    color: 'black',
+    cursor: 'pointer',
+    transition: 'color 0.3s ease',
+  }}
+  
+  onMouseEnter={(e) => e.target.style.color = '#007bff'}
+
+  onMouseLeave={(e) => e.target.style.color = 'black'}>Create Account</Link>
                 </form>
             </div>
         </div>
+            
+        
     )
 }
 

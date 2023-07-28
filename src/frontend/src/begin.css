@@ -1,0 +1,62 @@
+
+/*add new font Amiri and the hover-button Let's go for welcome page, font style may change
+due to the altering according to the what js file really wrote. Also, create some fade-in 
+animation which used in transition between page and page (the bakcground fade-in)*/
+
+@font-face {
+    font-family: 'Amiri', serif;
+    font-weight: 400;
+    src: url('https://fonts.gstatic.com/s/amiri/v14/J7aRnpd8CGxBHqUp.ttf') format('truetype');
+  }
+
+
+  .hover-button {
+    font-family: 'Amiri';
+    padding: 55px 35px;
+    background-color: #007BFF;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+    
+
+
+.hover-button:hover {
+    background-color: black; 
+
+  }
+
+  @keyframes fadeIn {
+    0% {
+      opacity: 0; 
+    }
+    100% {
+      opacity: 1; 
+    }
+  }
+
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+  
+
+  .contentStyle {
+    animation: fadeIn 3s;
+  }
+
+  .backgroundFadeIn {
+    animation: fadeIn 2s;
+  }
+
+  .videoFadeIn {
+    animation: fadeIn 2s;
+  }

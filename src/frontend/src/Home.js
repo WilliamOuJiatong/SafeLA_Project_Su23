@@ -7,6 +7,16 @@ import axios from 'axios';
 import flagIcon from './flag.png'; // adjust path to your flag.png
 import { UserContext } from './UserContext';
 import styles from './Home.module.css';
+import bgImage from './pack10.jpg';
+import './begin.css';
+import './index.css';
+import bgVideo from './video5.mp4';
+
+
+//Altering the appearance of rentinfo and location //line 214-243
+//Add the menu with the dark page transition //line 120-152 line160-175 line 248-291
+//Add background for menu and home page //line 160-167
+//Add animation to search bar //line 112-115 line190-199
 
 const flagIconInstance = new Icon({
   iconUrl: flagIcon,
@@ -16,23 +26,23 @@ const flagIconInstance = new Icon({
 
 const Home = () => {
   const [position, setPosition] = useState(null);
-
-  const [description, setDescription] =
-    useState('');  // state to store the description
-
+  const [description, setDescription] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
-
   const { user, setUser } = useContext(UserContext);
-
   const navigate = useNavigate();
-
   const [rentInfo, setRentInfo] = useState([]);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isSearchBarExpanded, setIsSearchBarExpanded] = useState(false);
+ 
 
   const logout = () => {
     setUser(null);  // reset user state
     navigate('/');  // redirect to login page
   };
 
+  
+  
+  
   const handleChange = (event) => {
     setSearchTerm(event.target.value);
   }
@@ -99,60 +109,188 @@ const Home = () => {
     }
   }, [position]);
 
-  return (
-    <>
-    <div className={styles.container}>
-      <div className={styles.header}>
-        <div className={styles.welcomeSection}>
-          {user && (
-            <div>
-              <h2>Welcome, {user.UserName}!</h2>
-              <p>Your email is: {user.Email}</p>
+
+  const toggleSearchBarAnimation = () => {
+    setIsSearchBarExpanded(!isSearchBarExpanded);
+  };
+
+
+
+  const handleMenuToggle = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const handleBackButtonClick = () => {
+    setIsMenuOpen(false); 
+  };
+
+
+  const menu = {
+    fontFamily: 'Amiri',
+    width: "30%", /* 使用百分比值来设置宽度 */
+    height: "100%", /* 使用百分比值来设置高度 */
+    position: "absolute",
+    top: "0",
+    right: "0",
+    zIndex: "9999",
+    animation: 'fadeIn 2s',
+  };
+
+  const darkOverlayStyle = {
+    position: 'fixed',
+    top: 0,
+    left: 0,
+    width: '100%',
+    height: '100%',
+    backgroundColor: 'rgba(0, 0, 0, 0.6)', 
+    zIndex: 9998, 
+    animation: 'fadeIn 3s',
+    display: isMenuOpen ? 'block' : 'none', 
+
+    
+  };
+
+ 
+
+  
+    return (
+      <>
+      <div style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        animation: 'fadeIn 3s',
+      }}
+      className="backgroundFadeIn"
+
+      >
+
+          <div className={styles.container}>
+            <div className={styles.header}>
+              <button onClick={handleMenuToggle} className={styles.menuButton}>
+                {isMenuOpen ? 'Close Menu' : 'Open Menu'}
+              </button>
+              
+                {user && (
+                   <div>
+                  <div className={styles.welcomeSection}>
+                  <h2 style={{ fontWeight: 'bold', paddingTop: '10px' }}>Welcome, {user.UserName}! Let's Search for a New Location.</h2>
+                   </div>
+                    <div style={{
+  position: 'absolute',
+  top: '10.5%', /* 使用百分比值来微调顶部距离 */
+  left: '5%', /* 使用百分比值来微调左侧距离 */
+  color: 'white',
+  fontFamily: 'Big Shoulders Inline Text',
+  textDecoration: 'underline'
+}}>
+                      <h4>Your Email : {user.Email}</h4>
+                    </div>
+                    </div>
+                    
+
+                )}
+               
+              <input
+               className={`${styles.searchBar} ${isSearchBarExpanded ? styles.expanded : ''}`}
+                type="text"
+                placeholder="Search here..."
+                value={searchTerm}
+                onChange={handleChange}
+                onKeyDown={event => event.key === 'Enter' && searchLocation()}
+                onFocus={toggleSearchBarAnimation} // Add onFocus event to expand the search bar
+              onBlur={toggleSearchBarAnimation} // Add onBlur event to collapse the search bar
+              />
             </div>
-          )}
-          <Link to="/useredit">
-            <button className={styles.editButton}>Edit</button>
-          </Link>
-        </div>
-        <input
-          className={styles.searchBar}
-          type="text"
-          placeholder="Search here..."
-          value={searchTerm}
-          onChange={handleChange}
-          onKeyDown={event => event.key === 'Enter' && searchLocation()}
-        />
-      </div>
-      <MapContainer center={[34.0522, -118.2437]} zoom={13} className={styles.mapContainer}>
-        <TileLayer
-          url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-          attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-        />
-        {position && <Marker position={position} icon={flagIconInstance} />}
-        <MapEvents />
-      </MapContainer>
-      <div className={styles.footer}>
-        {position && <p>Latitude: {position.lat}, Longitude: {position.lng}</p>}
-        {description &&
-          <p>Latitude: {description.LAT},<br />
-            Longitude: {description.LON},<br />Descriptions: {description.Descriptions}</p>}
-      </div>
-      <div className={`${styles.rentInfoContainer}`}>
-      <h2>Rent Info:</h2>
-      {Array.isArray(rentInfo) && rentInfo.map((info, index) => (
-          <div key={index}>
-          <p>Tract: {info.Tract}</p>
-          <p>Price: {info.Amount}</p>
-          <p>CorrYear: {info.Year}</p>
-          <p>Distance: {info.Distance}</p>
-          <p>AvgPrice: {info.AverageAmount}</p>
+            <MapContainer center={[34.0522, -118.2437]} zoom={13} className={styles.mapContainer}>
+              <TileLayer
+                url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                attribution='&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+              />
+              {position && <Marker position={position} icon={flagIconInstance} />}
+              <MapEvents />
+            </MapContainer>
+  <div className={styles.footer}>
+              {description && (
+                 <p>
+                 <span style={{ paddingLeft: '150px'  ,fontWeight: 'bold'}}>Latitude: {description.LAT},</span><br />
+                 <span style={{ paddingLeft: '135px'  ,fontWeight: 'bold'}}>Longitude: {description.LON},</span><br />
+                 <span style={{ paddingLeft: '100px'  ,fontWeight: 'bold',color: 'pink'}}>Descriptions: {description.Descriptions}</span>
+               </p>
+              )}
+            </div>
+  <div className={`${styles.rentInfoContainer}`}>
+            
+              {Array.isArray(rentInfo) &&
+                rentInfo.map((info, index) => (
+                  <div key={index}>
+                    <p><span style={{ paddingLeft: '200px' ,fontWeight: 'bold' ,fontStyle: 'italic', color: 'lightblue', textDecoration: 'underline'}}>-Tract: {info.Tract}</span></p>
+                    <p><span style={{ paddingLeft: '200px' }}>Price: {info.Amount}</span></p>
+                    <p><span style={{ paddingLeft: '200px' }}>CorrYear: {info.Year}</span></p>
+                    <p><span style={{ paddingLeft: '200px' }}>Distance: {info.Distance}</span></p>
+                    <p><span style={{ paddingLeft: '200px' }}>AvgPrice: {info.AverageAmount}</span></p>
+                  </div>
+                ))}
+            </div>
           </div>
-      ))}
+        </div>
+    
+      
+    
+        
+            
+          <div className={styles.menuButtonContainer}>
+        <button onClick={handleMenuToggle} className={styles.menuButton}>
+          {isMenuOpen ? 'Close Menu' : 'Open Menu'}
+        </button>
+      </div>
+
+      {isMenuOpen && (
+ <div style={darkOverlayStyle}>
+<div style={menu}>
+    <video autoPlay loop muted className="menu-video" style={{ width: "100%", height: "100%", objectFit: "cover" }}>
+      <source src={bgVideo} type="video/mp4" />
+    </video>
+    <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
+ 
+      <ul style={{ listStyleType: "none", padding: "0", margin: "0" }}>
+      <li style={{ marginBottom: '5px' }}>
+                    <Link to="/home">
+                      <button className={`${styles.customButton}`}>HOME</button>
+                    </Link>
+                  </li>
+                  <li style={{ marginBottom: '10px' }}>
+  <Link to="/useredit"> 
+  <button className={`${styles.customButton}`}>
+            PROFILE
+          </button>
+          </Link>
+        </li>
+        <li style={{ marginBottom: "10px" }}>
+        <Link to="/myfavorite"> 
+  <button className={`${styles.customButton}`}>
+        MY FAVORITE
+          </button>
+          </Link>
+        </li>
+        <li style={{ marginBottom: "10px" }}>
+        <button onClick={logout} className={`${styles.customButton}`}>LOG OUT
+          </button>
+        </li>
+        <li style={{ marginBottom: "5px" }}>
+        <div style={{ height: '40px' }} />
+                <button onClick={handleBackButtonClick} className={`${styles.customButton}`}>
+                  //BACK
+                </button>
+              </li>
+      </ul>
     </div>
-    </div>
-      <button onClick={logout} className={styles.logoutButton}>Log Out</button>
+  </div>
+  </div>
+)}
     </>
   );
-}
+};
 
 export default Home;
