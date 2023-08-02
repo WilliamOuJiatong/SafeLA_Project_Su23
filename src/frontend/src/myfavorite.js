@@ -11,6 +11,7 @@ import bgImage from './pack11.jpg';
 import bgImage2 from './222.jpg';
 import './begin.css';
 import './index.css';
+import './picture.png';
 
 
 const MyFavorite = () => {
@@ -30,6 +31,29 @@ const MyFavorite = () => {
   const handleBackButtonClick = () => {
     setIsMenuOpen(false);
   };
+
+  const [favorites, setFavorites] = useState([]);
+
+  useEffect(() => {
+    const fetchFavorites = async () => {
+        if (user) {
+            const res = await axios.get(`http://localhost:8081/favorites/${user.UserID}`);
+            console.log(res.data); 
+            if (res.data.data) { // Now accessing the "data" property of "res.data"
+                setFavorites(res.data.data); // Set favorites to the array from the server
+            } else {
+                setFavorites([]);
+            }
+        }
+    };
+    fetchFavorites();
+}, [user]);
+
+const handleRemoveFavorite = async (favorite) => {
+    await axios.delete(`http://localhost:8081/favorites/delete/${user.UserID}`, { data: favorite });
+    setFavorites(favorites.filter(f => f !== favorite));
+};
+
 
   const menu = {
     fontFamily: 'Amiri',
@@ -90,10 +114,49 @@ const MyFavorite = () => {
 {user && (
                    <div>
                   <div className={styles.welcomeSection}>
-                  <h2 style={{ fontWeight: 'bold', paddingTop: '10px',paddingLeft: '10px' ,opacity: 0.7}}>Hello, {user.UserName}! This is all the properties you are interested in...</h2>
+                  <h2 style={{ fontWeight: 'bold', paddingTop: '10px',paddingLeft: '10px' ,opacity: 0.7,fontSize:'50px',margin: '20% 0 0 -50%' }}>Hello, {user.UserName}! This is all the properties you are interested in...</h2>
                    </div>
                     </div>
                     )} 
+
+
+<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '70vh' }}>
+          <div style={{ height: '600px', overflowY: 'auto', maxWidth: '100%' }}>
+          <style>
+  {`
+    
+    div::-webkit-scrollbar {
+      width: 50px; 
+    }
+
+    div::-webkit-scrollbar-thumb {
+      background-color: white;  
+      border-radius: 30px;
+    }
+
+    div::-webkit-scrollbar-thumb:hover {
+      background-color: black;
+
+    }
+
+    div::-webkit-scrollbar-track {
+      background-image: url('./picture.png');
+      border-radius: 6px; 
+    }
+  `}
+</style>
+{favorites.map(favorite => (
+    <div key={favorite.Tract} style={{ fontWeight: 'bold', opacity: 1.7, textAlign: 'center', marginBottom: '90px', fontSize: '25px'}}>
+      <div style={{ position: 'relative' }}>
+      <p style={{ backgroundColor: 'rgba(0, 123, 255, 0.7)', color: 'white' }}>
+       Tract: {favorite.Tract}, Year: {favorite.Year}, Amount: {favorite.Amount}, RateNum: {favorite.RateNum}</p>
+
+       <button className = {styles.menuButtonfavo} onClick={() => handleRemoveFavorite(favorite)}>—</button>
+    </div></div>
+))}
+</div>
+
+</div>
 
         <div className={styles.menuButtonContainer}>
           <button onClick={handleMenuToggle} className={styles.menuButton}>
