@@ -56,6 +56,15 @@ const MyFavorite = () => {
     display: isMenuOpen ? 'block' : 'none',
   };
 
+
+  const menuStyles = {
+    width: '60vh',
+    height: '100vh',
+    backgroundImage: `url(${bgImage2})`,
+    backgroundSize: 'cover',
+
+  };
+
   return (
     
       <div
@@ -96,7 +105,8 @@ const MyFavorite = () => {
 
         {isMenuOpen && (
           <div style={darkOverlayStyle}>
-            <div style={{ ...menu, backgroundImage: `url(${bgImage2})` }}>
+             <div style={menu}>
+ <div style={menuStyles}>
              
           
               <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
@@ -135,10 +145,12 @@ const MyFavorite = () => {
               </div>
             </div>
           </div>
+          </div>
         )}
       </div>
       </div>
       </div>
+      
       
     
   );
