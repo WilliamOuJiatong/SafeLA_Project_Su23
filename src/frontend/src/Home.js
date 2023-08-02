@@ -128,8 +128,8 @@ const Home = () => {
 
   const menu = {
     fontFamily: 'Amiri',
-    width: "30%", /* 使用百分比值来设置宽度 */
-    height: "100%", /* 使用百分比值来设置高度 */
+    width: "30%", 
+    height: "100vh", 
     position: "absolute",
     top: "0",
     right: "0",
@@ -152,7 +152,13 @@ const Home = () => {
   };
 
  
+  const menuStyles = {
+    width: '60vh',
+    height: '100vh',
+    backgroundImage: `url(${bgImage2})`,
+    backgroundSize: 'cover',
 
+  };
   
     return (
       <>
@@ -249,7 +255,8 @@ const Home = () => {
 
       {isMenuOpen && (
  <div style={darkOverlayStyle}>
-<div style={{ ...menu, backgroundImage: `url(${bgImage2})` }}>
+  <div style={menu}>
+ <div style={menuStyles}>
     
    
     <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
@@ -286,6 +293,7 @@ const Home = () => {
               </li>
       </ul>
     </div>
+  </div>
   </div>
   </div>
 )}
