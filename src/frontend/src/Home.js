@@ -37,6 +37,7 @@ const Home = () => {
  
 
   const logout = () => {
+    console.log("Current user before logout: ", user);
     setUser(null);  // reset user state
     navigate('/');  // redirect to login page
   };
@@ -89,6 +90,7 @@ const Home = () => {
         .get(`http://localhost:8081/crimeData?lat=${position.lat}&lon=${position.lng}`)
         .then(response => {
           setDescription(response.data);
+          console.log("Updated description: ", response.data);
         })
         .catch(error => {
           console.error(`Error: ${error}`);
@@ -103,6 +105,7 @@ const Home = () => {
         .then(response => {
           console.log(response.data); // log the data here
           setRentInfo(response.data);
+          console.log("Updated rentInfo: ", response.data); // Log the new state
         })
         .catch(error => {
           console.error(`Error: ${error}`);
@@ -125,6 +128,44 @@ const Home = () => {
     setIsMenuOpen(false); 
   };
 
+  //Add favorite in each row of tract 
+  const addFavorite = async (rentInfoItem) => {
+    try {
+      const payload = {
+        UserID: user.UserID,
+        Tract: rentInfoItem.Tract,
+        Year: rentInfoItem.Year,
+        Amount: rentInfoItem.Amount,
+        RateNum: description.Descriptions, 
+      };
+  
+      console.log("Payload in addFavorite: ", payload); // Log the payload for debugging
+  
+      const response = await axios.post('http://localhost:8081/favorites/add', payload);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const removeFavorite = async (rentInfoItem) => {
+    try {
+      const payload = {
+        UserID: user.UserID,
+        Tract: rentInfoItem.Tract,
+        Year: rentInfoItem.Year,
+        Amount: rentInfoItem.Amount,
+        RateNum: description.Descriptions,
+      };
+  
+      console.log("Payload in removeFavorite: ", payload); // Log the payload for debugging
+  
+      const response = await axios.delete('http://localhost:8081/favorites/remove', { data: payload });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
   const menu = {
     fontFamily: 'Amiri',
@@ -162,6 +203,7 @@ const Home = () => {
   
     return (
       <>
+     
       <div style={{
         backgroundImage: `url(${bgImage})`,
         backgroundSize: 'cover',
@@ -186,8 +228,8 @@ const Home = () => {
                    </div>
                     <div style={{
   position: 'absolute',
-  top: '10.5%', /* 使用百分比值来微调顶部距离 */
-  left: '5%', /* 使用百分比值来微调左侧距离 */
+  top: '10.5%', 
+  left: '5%', 
   color: 'white',
   fontFamily: 'Big Shoulders Inline Text',
   textDecoration: 'underline'
@@ -233,6 +275,8 @@ const Home = () => {
                 rentInfo.map((info, index) => (
                   <div key={index}>
                     <p><span style={{ paddingLeft: '200px' ,fontWeight: 'bold' ,fontStyle: 'italic', color: 'lightblue', textDecoration: 'underline'}}>-Tract: {info.Tract}</span></p>
+                    <button  className = {styles.menuButtonfavo2} onClick={() => removeFavorite(info)}>—</button>
+                    <button  className = {styles.menuButtonfavo3} onClick={() => addFavorite(info)}>+</button>
                     <p><span style={{ paddingLeft: '200px' }}>Price: {info.Amount}</span></p>
                     <p><span style={{ paddingLeft: '200px' }}>CorrYear: {info.Year}</span></p>
                     <p><span style={{ paddingLeft: '200px' }}>Distance: {info.Distance}</span></p>
@@ -296,6 +340,7 @@ const Home = () => {
   </div>
   </div>
   </div>
+  
 )}
     </>
   );
