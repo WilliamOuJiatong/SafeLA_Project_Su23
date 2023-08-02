@@ -243,3 +243,62 @@ border-radius: 10px;
   width: 40%;
 }
 
+
+.menuButtonfavo {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: black;
+      color: white;
+      font-weight: bold;
+      font-size: 25px;
+      border: none;
+      cursor: pointer;
+      position: absolute;
+      left: 5%;
+      transition: background-color 0.3s ease;
+    }
+
+.menuButtonfavo:hover {
+      background-color: red; 
+    }
+
+  .menuButtonfavo2 {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: white;
+      color: black;
+      font-weight: bold;
+      font-size: 30px;
+      border: none;
+      cursor: pointer;
+      left: 65%;
+      position: absolute;
+
+      transition: background-color 0.3s ease;
+    }
+
+  .menuButtonfavo2:hover {
+      background-color: red; 
+    }
+
+  .menuButtonfavo3 {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: white;
+      color: black;
+      font-weight: bold;
+      font-size: 35px;
+      left: 58%;
+      border: none;
+      cursor: pointer;
+      position: absolute;
+
+      transition: background-color 0.3s ease;
+    }
+.menuButtonfavo3:hover {
+      background-color: #007BFF; 
+    }
+
