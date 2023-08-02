@@ -28,6 +28,7 @@ function haversineDistance(lat1, lon1, lat2, lon2) {
     var d = R * c;
     return d;
 }
+
 app.post('/signup', (req, res) => {
     const countSql = 'SELECT COUNT(*) as count FROM User';
     db.query(countSql, (err, data) => {
@@ -91,6 +92,54 @@ app.delete('/userdelete/:UserID', (req, res) => {
         } else {
             return res.status(200).json({ message: "User deleted successfully" });
         }
+    });
+});
+//Favorites add
+app.post("/favorites/add", (req, res) => {
+    const insertSql = "INSERT INTO Favorites (UserID, Tract, Year, Amount, RateNum) VALUES (?)";
+    const values = [req.body.UserID, req.body.Tract, req.body.Year, req.body.Amount, req.body.RateNum];
+    db.query(insertSql, [values], (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        return res.status(200).json({ message: 'Favorite added successfully' });
+    });
+});
+
+//Favorites remove
+app.delete("/favorites/remove", (req, res) => {
+    const deleteSql = "DELETE FROM Favorites WHERE UserID = ? AND Tract = ? AND Year = ? AND Amount = ? AND RateNum = ?";
+    const values = [req.body.UserID, req.body.Tract, req.body.Year, req.body.Amount, req.body.RateNum];
+    db.query(deleteSql, values, (err, result) => {
+        if (err) {
+            return res.status(500).json({ error: err.message });
+        }
+        return res.status(200).json({ message: 'Favorite removed successfully' });
+    });
+});
+
+//Favorites Display of specific user
+app.get('/favorites/:UserID', (req, res) => {
+    const userId = req.params.UserID;
+    const query = 'SELECT DISTINCT Tract, Year, Amount, RateNum FROM Favorites WHERE UserID = ? ORDER BY Amount ASC';
+    db.query(query, [userId], (err, data) => {
+        if (err) {
+            return res.json({ status: "Error", error: err.message });
+        }
+        return res.json({ status: "Success", data });
+    });
+});
+
+//Favorites Remove at myfavorite page
+app.delete('/favorites/delete/:UserID', (req, res) => {
+    const userId = req.params.UserID;
+    const { Tract, Year, Amount, RateNum } = req.body;
+    const query = 'DELETE FROM Favorites WHERE UserID = ? AND Tract = ? AND Year = ? AND Amount = ? AND RateNum = ?';
+    db.query(query, [userId, Tract, Year, Amount, RateNum], (err, result) => {
+        if (err) {
+            return res.json({ status: "Error", error: err.message });
+        }
+        return res.json({ status: "Success", message: "Favorite deleted successfully" });
     });
 });
 
