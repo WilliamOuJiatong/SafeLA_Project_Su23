@@ -3,12 +3,12 @@ import React, { useState, useContext } from 'react'
 import axios from 'axios'
 import { UserContext } from './UserContext'
 import styles from './UserEdit.module.css';
-import bgVideo from './video2.mp4';
 import { Link, useNavigate } from 'react-router-dom'
 import styles1 from './Home.module.css';
 import './begin.css';
 import './index.css';
-import bgVideo1 from './video5.mp4';
+import bgImage from './333.jpg';
+import bgImage2 from './222.jpg';
 
 //Change backgroundvideo // line 107-135
 //add text to box // line 154-180
@@ -94,33 +94,25 @@ function UserEdit() {
         }
     };
 
-    const videoContainerStyle = {
-        fontFamily: 'Amiri',
-        position: 'relative',
-        width: '100%',
-        height: '100vh',
-        overflow: 'hidden',
-      };
-    
-      const videoBackgroundStyle = {
-        fontFamily: 'Amiri',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        zIndex: -1,
-      };
-
-
+    const menuStyles = {
+      width: '60vh',
+      height: '100vh',
+      backgroundImage: `url(${bgImage2})`,
+      backgroundSize: 'cover',
+  
+    };
     return (
-        <div style={videoContainerStyle}>
-      <video autoPlay loop muted style={{ ...videoBackgroundStyle, animation: 'fadeIn 3s' }}
-        className="videoFadeIn">
-        <source src={bgVideo} type="video/mp4" />
-        Your browser does not support the video tag.
-        </video>
+
+      <div style={{
+         backgroundImage: `url(${bgImage})`,
+         backgroundSize: 'cover',
+         backgroundPosition: 'center center',
+         backgroundRepeat: 'no-repeat',
+         animation: 'fadeIn 3s',
+       }}
+       className="backgroundFadeIn"
+       
+       >
 
         <div className={styles.container}> 
 
@@ -174,10 +166,9 @@ function UserEdit() {
 
         {isMenuOpen && (
           <div style={darkOverlayStyle}>
-            <div style={menu}>
-              <video autoPlay loop muted className="menu-video" style={{ width: '100%', height: '100%', objectFit: 'cover' }}>
-                <source src={bgVideo1} type="video/mp4" />
-              </video>
+         <div style={menu}>
+ <div style={menuStyles}>
+
               <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <ul style={{ listStyleType: 'none', padding: '0', margin: '0' }}>
                 <li style={{ marginBottom: '5px' }}>
@@ -210,7 +201,7 @@ function UserEdit() {
               </div>
             </div>
           </div>
-          
+          </div>
         )}
       </div>
       

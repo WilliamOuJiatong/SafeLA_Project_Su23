@@ -8,9 +8,10 @@ import flagIcon from './flag.png'; // adjust path to your flag.png
 import { UserContext } from './UserContext';
 import styles from './Home.module.css';
 import bgImage from './pack10.jpg';
+import bgImage2 from './222.jpg';
 import './begin.css';
 import './index.css';
-import bgVideo from './video5.mp4';
+
 
 
 //Altering the appearance of rentinfo and location //line 214-243
@@ -36,7 +37,7 @@ const Home = () => {
  
 
   const logout = () => {
-    console.log("Current user before logout: ", user); // Log the user before logout
+    console.log("Current user before logout: ", user);
     setUser(null);  // reset user state
     navigate('/');  // redirect to login page
   };
@@ -147,6 +148,23 @@ const Home = () => {
     }
   };
 
+  const addSubscription = async () => {
+    try {
+      const payload = {
+        UserID: user.UserID,
+        lat: position.lat,
+        lng: position.lng
+      };
+  
+      console.log("Payload in addSubscription: ", payload); // Log the payload for debugging
+  
+      const response = await axios.post('http://localhost:8081/Subscription/add', payload);
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const removeFavorite = async (rentInfoItem) => {
     try {
       const payload = {
@@ -165,12 +183,29 @@ const Home = () => {
       console.error(error);
     }
   };
+ 
+  const removeSubscription = async () => {
+    try {
+      const payload = {
+        UserID: user.UserID,
+        lat: position.lat,
+        lng: position.lng
+      };
+  
+      console.log("Payload in removeSubscription: ", payload); // Log the payload for debugging
+  
+      const response = await axios.delete('http://localhost:8081/Subscription/remove', { data: payload });
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+  };
 
 
   const menu = {
     fontFamily: 'Amiri',
-    width: "30%", /* 使用百分比值来设置宽度 */
-    height: "100%", /* 使用百分比值来设置高度 */
+    width: "30%", 
+    height: "100vh", 
     position: "absolute",
     top: "0",
     right: "0",
@@ -193,10 +228,17 @@ const Home = () => {
   };
 
  
+  const menuStyles = {
+    width: '60vh',
+    height: '100vh',
+    backgroundImage: `url(${bgImage2})`,
+    backgroundSize: 'cover',
 
+  };
   
     return (
       <>
+     
       <div style={{
         backgroundImage: `url(${bgImage})`,
         backgroundSize: 'cover',
@@ -221,8 +263,8 @@ const Home = () => {
                    </div>
                     <div style={{
   position: 'absolute',
-  top: '10.5%', /* 使用百分比值来微调顶部距离 */
-  left: '5%', /* 使用百分比值来微调左侧距离 */
+  top: '10.5%', 
+  left: '5%', 
   color: 'white',
   fontFamily: 'Big Shoulders Inline Text',
   textDecoration: 'underline'
@@ -268,8 +310,8 @@ const Home = () => {
                 rentInfo.map((info, index) => (
                   <div key={index}>
                     <p><span style={{ paddingLeft: '200px' ,fontWeight: 'bold' ,fontStyle: 'italic', color: 'lightblue', textDecoration: 'underline'}}>-Tract: {info.Tract}</span></p>
-                    <button onClick={() => addFavorite(info)}>Add to Favorites</button>
-                    <button onClick={() => removeFavorite(info)}>Remove from Favorites</button>
+                    <button  className = {styles.menuButtonfavo2} onClick={() => {removeFavorite(info); removeSubscription();}}>—</button>
+                    <button  className = {styles.menuButtonfavo3} onClick={() => {addFavorite(info); addSubscription();}}>+</button>
                     <p><span style={{ paddingLeft: '200px' }}>Price: {info.Amount}</span></p>
                     <p><span style={{ paddingLeft: '200px' }}>CorrYear: {info.Year}</span></p>
                     <p><span style={{ paddingLeft: '200px' }}>Distance: {info.Distance}</span></p>
@@ -292,10 +334,10 @@ const Home = () => {
 
       {isMenuOpen && (
  <div style={darkOverlayStyle}>
-<div style={menu}>
-    <video autoPlay loop muted className="menu-video" style={{ width: "100%", height: "100%", objectFit: "cover" }}>
-      <source src={bgVideo} type="video/mp4" />
-    </video>
+  <div style={menu}>
+ <div style={menuStyles}>
+    
+   
     <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
  
       <ul style={{ listStyleType: "none", padding: "0", margin: "0" }}>
@@ -332,6 +374,8 @@ const Home = () => {
     </div>
   </div>
   </div>
+  </div>
+  
 )}
     </>
   );

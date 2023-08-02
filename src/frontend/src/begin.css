@@ -56,7 +56,3 @@ animation which used in transition between page and page (the bakcground fade-in
   .backgroundFadeIn {
     animation: fadeIn 2s;
   }
-
-  .videoFadeIn {
-    animation: fadeIn 2s;
-  }

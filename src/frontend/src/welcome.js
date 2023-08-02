@@ -4,7 +4,7 @@ import { useState } from 'react'
 import Validation from './LoginValidation';
 import axios from 'axios';
 import { UserContext } from './UserContext';
-import bgVideo from './video1.mp4';
+import bgImage from './111.jpg';
 import './begin.css';
 
 //This is a new page!
@@ -12,22 +12,6 @@ import './begin.css';
 const WelcomePage = ({ onClick }) => {
     
 
-    const videoContainerStyle = {
-        position: 'relative',
-        width: '100%',
-        height: '100vh',
-        overflow: 'hidden',
-      };
-    
-      const videoBackgroundStyle = {
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        zIndex: -1,
-      };
 
       const contentStyle = {
         fontFamily: 'Amiri',
@@ -50,12 +34,19 @@ const WelcomePage = ({ onClick }) => {
       };
 
     return (
-        <div style={videoContainerStyle}>
-      <video autoPlay loop muted style={{ ...videoBackgroundStyle, animation: 'fadeIn 3s' }}
-        className="videoFadeIn">
-        <source src={bgVideo} type="video/mp4" />
-        Your browser does not support the video tag.
-        </video>
+      
+      <div style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        animation: 'fadeIn 3s',
+        height: '100vh',
+      }}
+      className="backgroundFadeIn"
+
+      >
+        
         <div style={{ ...contentStyle, animation: 'fadeIn 3s' }}>
 
       <div>
@@ -77,6 +68,7 @@ const WelcomePage = ({ onClick }) => {
 </div> 
 </div>
 </div>
+
             
         
     );

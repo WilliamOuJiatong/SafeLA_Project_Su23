@@ -8,11 +8,11 @@ import flagIcon from './flag.png';
 import { UserContext } from './UserContext';
 import styles from './Home.module.css';
 import bgImage from './pack11.jpg';
+import bgImage2 from './222.jpg';
 import './begin.css';
 import './index.css';
-import bgVideo from './video5.mp4';
+import './picture.png';
 
-//This is a new page!
 
 const MyFavorite = () => {
     const { user, setUser } = useContext(UserContext);
@@ -33,7 +33,6 @@ const MyFavorite = () => {
   };
 
   const [favorites, setFavorites] = useState([]);
-
   useEffect(() => {
     const fetchFavorites = async () => {
         if (user) {
@@ -54,6 +53,11 @@ const handleRemoveFavorite = async (favorite) => {
     setFavorites(favorites.filter(f => f !== favorite));
 };
 
+const [subscriptions, setSubscriptions] = useState([]);
+const handleRemoveSubscription = async (subscription) => {
+  await axios.delete(`http://localhost:8081/Subscription/remove`, { data: subscription});
+  setSubscriptions(subscriptions.filter(s => s !== subscription));
+};
 
   const menu = {
     fontFamily: 'Amiri',
@@ -64,6 +68,7 @@ const handleRemoveFavorite = async (favorite) => {
     right: "0",
     zIndex: "9999",
     animation: 'fadeIn 2s',
+    backgroundImage: `url(${bgImage2})`,
   };
 
 
@@ -80,8 +85,16 @@ const handleRemoveFavorite = async (favorite) => {
   };
 
 
+  const menuStyles = {
+    width: '60vh',
+    height: '100vh',
+    backgroundImage: `url(${bgImage2})`,
+    backgroundSize: 'cover',
+
+  };
+
   return (
-    <>
+    
       <div
         style={{
           backgroundImage: `url(${bgImage})`,
@@ -103,21 +116,51 @@ const handleRemoveFavorite = async (favorite) => {
 
 
 {user && (
-                   <div style={{ marginBottom: '70px' }}>
+                   <div>
                   <div className={styles.welcomeSection}>
-                  <h2 style={{ fontWeight: 'bold', paddingTop: '10px',paddingLeft: '10px' ,opacity: 0.7}}>Hello, {user.UserName}! This is all the properties you are interested in...</h2>
-
+                  <h2 style={{ fontWeight: 'bold', paddingTop: '10px',paddingLeft: '10px' ,opacity: 0.7,fontSize:'50px',margin: '20% 0 0 -50%' }}>Hello, {user.UserName}! This is all the properties you are interested in...</h2>
                    </div>
                     </div>
                     )} 
 
+
+<div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '70vh' }}>
+          <div style={{ height: '600px', overflowY: 'auto', maxWidth: '100%' }}>
+          <style>
+  {`
+    
+    div::-webkit-scrollbar {
+      width: 50px; 
+    }
+
+    div::-webkit-scrollbar-thumb {
+      background-color: white;  
+      border-radius: 30px;
+    }
+
+    div::-webkit-scrollbar-thumb:hover {
+      background-color: black;
+
+    }
+
+    div::-webkit-scrollbar-track {
+      background-image: url('./picture.png');
+      border-radius: 6px; 
+    }
+  `}
+</style>
 {favorites.map(favorite => (
-    <div key={favorite.Tract} style={{ fontWeight: 'bold', opacity: 1.7, textAlign: 'center', marginBottom: '30px'}}>
-      <p style={{ backgroundColor: 'black', color: 'white' }}>
+    <div key={favorite.Tract} style={{ fontWeight: 'bold', opacity: 1.7, textAlign: 'center', marginBottom: '90px', fontSize: '25px'}}>
+      <div style={{ position: 'relative' }}>
+      <p style={{ backgroundColor: 'rgba(0, 123, 255, 0.7)', color: 'white' }}>
        Tract: {favorite.Tract}, Year: {favorite.Year}, Amount: {favorite.Amount}, RateNum: {favorite.RateNum}</p>
-        <button style={{ color: 'grey' }} onClick={() => handleRemoveFavorite(favorite)}>Remove from favorite</button>
-    </div>
+
+       <button className = {styles.menuButtonfavo} onClick={() => {handleRemoveFavorite(favorite);handleRemoveSubscription()}}>—</button>
+    </div></div>
 ))}
+</div>
+
+</div>
 
         <div className={styles.menuButtonContainer}>
           <button onClick={handleMenuToggle} className={styles.menuButton}>
@@ -129,10 +172,10 @@ const handleRemoveFavorite = async (favorite) => {
 
         {isMenuOpen && (
           <div style={darkOverlayStyle}>
-            <div style={menu}>
-              <video autoPlay loop muted className="menu-video" style={{ width: '100%', height: '100%', objectFit: 'cover' }}>
-                <source src={bgVideo} type="video/mp4" />
-              </video>
+             <div style={menu}>
+ <div style={menuStyles}>
+             
+          
               <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
 
                 <ul style={{ listStyleType: "none", padding: "0", margin: "0" }}>
@@ -169,12 +212,14 @@ const handleRemoveFavorite = async (favorite) => {
               </div>
             </div>
           </div>
+          </div>
         )}
       </div>
       </div>
       </div>
       
-    </>
+      
+    
   );
 };
 
