@@ -94,7 +94,13 @@ function UserEdit() {
         }
     };
 
-
+    const menuStyles = {
+      width: '60vh',
+      height: '100vh',
+      backgroundImage: `url(${bgImage2})`,
+      backgroundSize: 'cover',
+  
+    };
     return (
 
       <div style={{
@@ -159,8 +165,9 @@ function UserEdit() {
 
         {isMenuOpen && (
           <div style={darkOverlayStyle}>
-         <div style={{ ...menu, backgroundImage: `url(${bgImage2})` }}>
-             
+         <div style={menu}>
+ <div style={menuStyles}>
+
               <div style={{ position: 'absolute', top: '50%', left: '50%', transform: 'translate(-50%, -50%)' }}>
                 <ul style={{ listStyleType: 'none', padding: '0', margin: '0' }}>
                 <li style={{ marginBottom: '5px' }}>
@@ -193,7 +200,7 @@ function UserEdit() {
               </div>
             </div>
           </div>
-          
+          </div>
         )}
       </div>
       
