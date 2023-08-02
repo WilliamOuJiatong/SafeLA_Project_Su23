@@ -1,26 +1,33 @@
-import React, { useState } from 'react'
-import Login from './Login'
-import Signup from './Signup'
-import Home from './Home'
-import { BrowserRouter, Routes, Route } from 'react-router-dom'
-import { UserContext } from './UserContext'
-import UserEdit from './UserEdit'
+import React, { useState } from 'react';
+import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { UserContext } from './UserContext';
+import WelcomePage from './welcome';
+import Login from './Login';
+import Signup from './Signup';
+import Home from './Home';
+import UserEdit from './UserEdit';
+import MyFavorite from './myfavorite';
+import './begin.css';
+
+//add new path welcome page and myfavorite page
 
 function App() {
   const [user, setUser] = useState(null);
 
   return (
-    <BrowserRouter>
-      <UserContext.Provider value={{ user, setUser }}>
+    <UserContext.Provider value={{ user, setUser }}>
+      <BrowserRouter>
         <Routes>
-          <Route path='/' element={<Login />}></Route>
-          <Route path='/signup' element={<Signup />}></Route>
-          <Route path='/home' element={<Home />}></Route>
-          <Route path='/useredit' element={<UserEdit />}></Route>
+          <Route path="/" element={<WelcomePage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<Signup />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/useredit" element={<UserEdit />} />
+          <Route path="/myfavorite" element={<MyFavorite />} />
         </Routes>
-      </UserContext.Provider>
-    </BrowserRouter >
-  )
+      </BrowserRouter>
+    </UserContext.Provider>
+  );
 }
 
-export default App
+export default App;
