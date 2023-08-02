@@ -3,11 +3,11 @@ import { Link, useNavigate } from 'react-router-dom'
 import Validation from './SignupValidation'
 import { useState} from 'react'
 import axios from 'axios'
-import bgVideo from './video1.mp4';
+import bgImage from './111.jpg';
 import './begin.css';
 
 //Altering the appearance of login box-text font and box // line 65-90 line108-152
-//Add video background // line 413-60 line 96-103
+
 
 function Signup() {
     const [values, setValues] = useState({
@@ -36,24 +36,6 @@ function Signup() {
         }
     }
 
-    const videoContainerStyle = {
-        fontFamily: 'Amiri',
-        position: 'relative',
-        width: '100%',
-        height: '100vh',
-        overflow: 'hidden',
-      };
-    
-      const videoBackgroundStyle = {
-        fontFamily: 'Amiri',
-        position: 'absolute',
-        top: 0,
-        left: 0,
-        width: '100%',
-        height: '100%',
-        objectFit: 'cover',
-        zIndex: -1,
-      };
 
       const contentStyle = {
         fontFamily: 'Amiri',
@@ -83,12 +65,18 @@ function Signup() {
       };
 
   return (
-    <div style={videoContainerStyle}>
-     <video autoPlay loop muted style={{ ...videoBackgroundStyle, animation: 'fadeIn 3s' }}
-        className="videoFadeIn">
-        <source src={bgVideo} type="video/mp4" />
-        Your browser does not support the video tag.
-        </video>
+
+
+    <div style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: 'cover',
+        backgroundPosition: 'center center',
+        backgroundRepeat: 'no-repeat',
+        animation: 'fadeIn 3s',
+        height: '100vh',
+      }}
+      className="backgroundFadeIn"
+    >
 
         <div style={contentStyle}>
         <h1 style={h1Style}>Sign-Up</h1> 
@@ -138,6 +126,7 @@ function Signup() {
 
         </div>
         </div>
+
         
 
   )
