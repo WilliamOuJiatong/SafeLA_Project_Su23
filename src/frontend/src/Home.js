@@ -8,9 +8,10 @@ import flagIcon from './flag.png'; // adjust path to your flag.png
 import { UserContext } from './UserContext';
 import styles from './Home.module.css';
 import bgImage from './pack10.jpg';
+import bgImage2 from './222.jpg';
 import './begin.css';
 import './index.css';
-import bgVideo from './video5.mp4';
+
 
 
 //Altering the appearance of rentinfo and location //line 214-243
@@ -248,10 +249,9 @@ const Home = () => {
 
       {isMenuOpen && (
  <div style={darkOverlayStyle}>
-<div style={menu}>
-    <video autoPlay loop muted className="menu-video" style={{ width: "100%", height: "100%", objectFit: "cover" }}>
-      <source src={bgVideo} type="video/mp4" />
-    </video>
+<div style={{ ...menu, backgroundImage: `url(${bgImage2})` }}>
+    
+   
     <div style={{ position: "absolute", top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}>
  
       <ul style={{ listStyleType: "none", padding: "0", margin: "0" }}>
