@@ -108,7 +108,7 @@ app.post("/favorites/add", (req, res) => {
 
 //Subscription add
 app.post("/Subscription/add", (req, res) => {
-    const procedureSql = "CALL AddSubscriptionTest(?, ?, ?, ?)";
+    const procedureSql = "CALL AddSubscription(?, ?, ?, ?)";
     const values = [req.body.UserID, req.body.lat, req.body.lng, 1];
     db.query(procedureSql, values, (err, result) => {
         if (err) {
