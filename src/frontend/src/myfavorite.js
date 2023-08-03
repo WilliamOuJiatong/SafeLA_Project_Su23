@@ -55,6 +55,29 @@ const handleRemoveFavorite = async (favorite) => {
 };
 
 
+const [subscriptions, setSubscriptions] = useState([]);
+
+useEffect(() => {
+  const fetchSubscriptions = async () => {
+      if (user) {
+          const res = await axios.get(`http://localhost:8081/Subscription/${user.UserID}`);
+          console.log(res.data); 
+          if (res.data.data) { // Now accessing the "data" property of "res.data"
+              setSubscriptions(res.data.data); // Set favorites to the array from the server
+          } else {
+              setSubscriptions([]);
+          }
+      }
+  };
+  fetchSubscriptions();
+}, [user]);
+
+const handleRemoveSubscription = async (subscription) => {
+  await axios.delete(`http://localhost:8081/Subscription/remove/${user.UserID}`, { data: subscription });
+  setSubscriptions(subscriptions.filter(s => s !== subscription));
+};
+
+
   const menu = {
     fontFamily: 'Amiri',
     width: "30%", 
@@ -151,7 +174,9 @@ const handleRemoveFavorite = async (favorite) => {
       <p style={{ backgroundColor: 'rgba(0, 123, 255, 0.7)', color: 'white' }}>
        Tract: {favorite.Tract}, Year: {favorite.Year}, Amount: {favorite.Amount}, RateNum: {favorite.RateNum}</p>
 
-       <button className = {styles.menuButtonfavo} onClick={() => handleRemoveFavorite(favorite)}>—</button>
+
+       <button className = {styles.menuButtonfavo} onClick={() => {handleRemoveFavorite(favorite);handleRemoveSubscription()}}>—</button>
+
     </div></div>
 ))}
 </div>

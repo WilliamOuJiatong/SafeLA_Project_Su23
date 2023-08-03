@@ -111,6 +111,7 @@ function UserEdit() {
          animation: 'fadeIn 3s',
        }}
        className="backgroundFadeIn"
+
        >
 
         <div className={styles.container}> 
