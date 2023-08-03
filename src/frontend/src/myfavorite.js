@@ -33,6 +33,7 @@ const MyFavorite = () => {
   };
 
   const [favorites, setFavorites] = useState([]);
+
   useEffect(() => {
     const fetchFavorites = async () => {
         if (user) {
@@ -52,6 +53,7 @@ const handleRemoveFavorite = async (favorite) => {
     await axios.delete(`http://localhost:8081/favorites/delete/${user.UserID}`, { data: favorite });
     setFavorites(favorites.filter(f => f !== favorite));
 };
+
 
 const [subscriptions, setSubscriptions] = useState([]);
 
@@ -74,6 +76,7 @@ const handleRemoveSubscription = async (subscription) => {
   await axios.delete(`http://localhost:8081/Subscription/remove/${user.UserID}`, { data: subscription });
   setSubscriptions(subscriptions.filter(s => s !== subscription));
 };
+
 
   const menu = {
     fontFamily: 'Amiri',
@@ -171,7 +174,9 @@ const handleRemoveSubscription = async (subscription) => {
       <p style={{ backgroundColor: 'rgba(0, 123, 255, 0.7)', color: 'white' }}>
        Tract: {favorite.Tract}, Year: {favorite.Year}, Amount: {favorite.Amount}, RateNum: {favorite.RateNum}</p>
 
+
        <button className = {styles.menuButtonfavo} onClick={() => {handleRemoveFavorite(favorite);handleRemoveSubscription()}}>—</button>
+
     </div></div>
 ))}
 </div>

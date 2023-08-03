@@ -148,6 +148,7 @@ const Home = () => {
     }
   };
 
+
   const addSubscription = async () => {
     try {
       const payload = {
@@ -164,6 +165,7 @@ const Home = () => {
       console.error(error);
     }
   };
+
 
   const removeFavorite = async (rentInfoItem) => {
     try {
@@ -183,6 +185,7 @@ const Home = () => {
       console.error(error);
     }
   };
+
  
   const removeSubscription = async () => {
     try {
@@ -310,8 +313,11 @@ const Home = () => {
                 rentInfo.map((info, index) => (
                   <div key={index}>
                     <p><span style={{ paddingLeft: '200px' ,fontWeight: 'bold' ,fontStyle: 'italic', color: 'lightblue', textDecoration: 'underline'}}>-Tract: {info.Tract}</span></p>
+
                     <button  className = {styles.menuButtonfavo2} onClick={() => {removeFavorite(info); removeSubscription();}}>—</button>
                     <button  className = {styles.menuButtonfavo3} onClick={() => {addFavorite(info); addSubscription();}}>+</button>
+
+
                     <p><span style={{ paddingLeft: '200px' }}>Price: {info.Amount}</span></p>
                     <p><span style={{ paddingLeft: '200px' }}>CorrYear: {info.Year}</span></p>
                     <p><span style={{ paddingLeft: '200px' }}>Distance: {info.Distance}</span></p>

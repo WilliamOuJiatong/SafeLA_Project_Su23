@@ -106,6 +106,7 @@ app.post("/favorites/add", (req, res) => {
     });
 });
 
+
 //Subscription add
 app.post("/Subscription/add", (req, res) => {
     const procedureSql = "CALL AddSubscription(?, ?, ?, ?)";
@@ -121,6 +122,8 @@ app.post("/Subscription/add", (req, res) => {
         return res.status(200).json({ message: 'Subscription added successfully' });
     });
 });
+
+
 //Favorites remove
 app.delete("/favorites/remove", (req, res) => {
     const deleteSql = "DELETE FROM Favorites WHERE UserID = ? AND Tract = ? AND Year = ? AND Amount = ? AND RateNum = ?";
@@ -132,6 +135,7 @@ app.delete("/favorites/remove", (req, res) => {
         return res.status(200).json({ message: 'Favorite removed successfully' });
     });
 });
+
 
 //Subscription remove
 app.delete("/Subscription/remove", (req, res) => {
@@ -184,6 +188,7 @@ app.delete('/favorites/delete/:UserID', (req, res) => {
     });
 });
 
+
 //Subscription remove at myfavorite page
 app.delete("/Subscription/remove/:UserID", (req, res) => {
     const userId = req.params.UserID;
@@ -196,6 +201,7 @@ app.delete("/Subscription/remove/:UserID", (req, res) => {
         return res.json({ status: "Success", message: "Subscription removed successfully" });
     });
 });
+
 
 app.get('/crimeData', (req, res) => {
     const lat = req.query.lat;
