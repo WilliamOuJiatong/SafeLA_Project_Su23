@@ -108,17 +108,19 @@ app.post("/favorites/add", (req, res) => {
 
 //Subscription add
 app.post("/Subscription/add", (req, res) => {
-    const procedureSql = "CALL AddSubscription(?, ?, ?, ?)";
-    const values = [req.body.UserID, req.body.lat, req.body.lng, 999999999999999];
+    const procedureSql = "CALL AddSubscriptionTest(?, ?, ?, ?)";
+    const values = [req.body.UserID, req.body.lat, req.body.lng, 1];
     db.query(procedureSql, values, (err, result) => {
         if (err) {
             console.error(err);
-            return res.status(500).json({ error: "An existing location is too close to the new location" });
+            if (err.sqlMessage === "An existing location is too close to the new location") {
+                return res.status(400).json({ error: err.sqlMessage });
+            }
+            return res.status(500).json({ error: 'There was an error processing your request' });
         }
         return res.status(200).json({ message: 'Subscription added successfully' });
     });
 });
-
 //Favorites remove
 app.delete("/favorites/remove", (req, res) => {
     const deleteSql = "DELETE FROM Favorites WHERE UserID = ? AND Tract = ? AND Year = ? AND Amount = ? AND RateNum = ?";
@@ -141,6 +143,18 @@ app.delete("/Subscription/remove", (req, res) => {
             return res.status(500).json({ error: err.message });
         }
         return res.status(200).json({ message: 'Subscription removed successfully' });
+    });
+});
+
+//Subscription upload
+app.get('/Subscription/:UserID', (req, res) => {
+    const userId = req.params.UserID;
+    const query = 'SELECT DISTINCT UserID, LAT, LON FROM Subscription WHERE UserID = ?';
+    db.query(query, [userId], (err, data) => {
+        if (err) {
+            return res.json({ status: "Error", error: err.message });
+        }
+        return res.json({ status: "Success", data });
     });
 });
 
